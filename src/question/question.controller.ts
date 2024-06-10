@@ -5,9 +5,8 @@ import {
   Param,
   Patch,
   Query,
-  HttpException,
-  HttpStatus,
   Post,
+  Delete,
 } from '@nestjs/common';
 import { QuestionDto } from './dto/question.dto';
 import { QuestionService } from './question.service';
@@ -16,27 +15,19 @@ import { QuestionService } from './question.service';
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
-  @Get('test')
-  getTest() {
-    throw new HttpException('获取数据失败', HttpStatus.BAD_REQUEST);
-  }
-
-  @Get()
-  findAll(
-    @Query('keyword') keyword: string,
-    @Query('page') page: number,
-    @Query('pageSize') pageSize: number,
-  ) {
-    console.log(keyword, page, pageSize);
-    return {
-      list: ['a', 'b', 'c'],
-      count: 10,
-    };
-  }
-
   @Post()
   create() {
     return this.questionService.create();
+  }
+
+  @Delete(':id')
+  deleteOne(@Param('id') id: string) {
+    return this.questionService.delete(id);
+  }
+
+  @Patch(':id')
+  updateOne(@Param('id') id: string, @Body() question: QuestionDto) {
+    return this.questionService.update(id, question);
   }
 
   @Get(':id')
@@ -44,13 +35,23 @@ export class QuestionController {
     return this.questionService.findOne(id);
   }
 
-  @Patch(':id')
-  updateOne(@Param('id') id: string, @Body() question: QuestionDto) {
-    console.log(question);
+  @Get()
+  async findAll(
+    @Query('keyword') keyword: string,
+    @Query('page') page: number,
+    @Query('pageSize') pageSize: number,
+  ) {
+    const list = await this.questionService.findAllList({
+      keyword,
+      page,
+      pageSize,
+    });
+
+    const count = await this.questionService.countAll({ keyword });
+
     return {
-      id,
-      title: 'aaa',
-      desc: 'ccc',
+      list,
+      count,
     };
   }
 }

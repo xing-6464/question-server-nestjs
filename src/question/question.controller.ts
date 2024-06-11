@@ -82,4 +82,10 @@ export class QuestionController {
       count,
     };
   }
+
+  @Post('duplicate/:id')
+  duplicate(@Param('id') id: string, @Request() req) {
+    const { username } = req.user;
+    return this.questionService.duplicate(id, username);
+  }
 }

@@ -14,6 +14,8 @@ async function bootstrap() {
   // 注册全局过滤器
   app.useGlobalFilters(new HttpExceptionFilter()); // 全局过滤器
 
+  app.enableCors(); // 允许跨域
+
   await app.listen(3005);
 }
 bootstrap();

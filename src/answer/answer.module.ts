@@ -8,6 +8,7 @@ import { Answer, AnswerSchema } from './schemas/answer.schema';
   imports: [
     MongooseModule.forFeature([{ name: Answer.name, schema: AnswerSchema }]),
   ],
+  exports: [AnswerService],
   providers: [AnswerService],
   controllers: [AnswerController],
 })

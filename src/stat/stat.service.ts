@@ -135,8 +135,8 @@ export class StatService {
     answers.forEach((a) => {
       const { answerList = [] } = a;
       answerList.forEach((a) => {
-        if (a.componentId !== componentFeId) return;
-        a.value.split(',').forEach((v) => {
+        if (a.componentFeId !== componentFeId) return;
+        a.value.forEach((v) => {
           if (countInfo[v] == null) countInfo[v] = 0;
           countInfo[v]++; // 累加
         });

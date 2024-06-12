@@ -129,14 +129,15 @@ export class StatService {
       page: 1,
       pageSize: total, // 获取所有的，不分页
     });
+    // console.log('answers', answers);
 
     // 累加各个 value 数量
     const countInfo = {};
     answers.forEach((a) => {
       const { answerList = [] } = a;
       answerList.forEach((a) => {
-        if (a.componentFeId !== componentFeId) return;
-        a.value.forEach((v) => {
+        if (a.componentId !== componentFeId) return;
+        a.value.split(',').forEach((v) => {
           if (countInfo[v] == null) countInfo[v] = 0;
           countInfo[v]++; // 累加
         });
